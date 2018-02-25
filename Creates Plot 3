@@ -1,0 +1,22 @@
+Code creates "Plot3.png" file
+
+##Reading base file
+> setwd("C:/Users/Evgeniy/Documents/R course - coursera/4. Extrapolatory analysis/Week 1")
+> File<-read.table('household_power_consumption.txt', header = T, sep=";")
+> library(lubridate)
+> File$Date<-dmy(File$Date)
+
+##Subsetting needed days
+> File1<-subset(File, File$Date=="2007-02-01"|File$Date=="2007-02-02")
+> File1$Global_active_power<-as.numeric(File1$Global_active_power)
+> File1$Full_Date<-paste(File1$Date,File1$Time)
+> File1$Full_Date<-as.POSIXct(File1$Full_Date)
+
+##Creating plot
+> plot(File1$Full_Date,File1$Sub_metering_1,type="n", ylab="Energy sub metering", xlab=" ")
+> lines(File1$Full_Date,File1$Sub_metering_1,col="black")
+> lines(File1$Full_Date,File1$Sub_metering_2,col="red")
+> lines(File1$Full_Date,File1$Sub_metering_3,col="blue")
+> legend("topright", legend=c("Sub_metering_1", "Sub_metering_2", "Sub_Metering_3"), col=c("black", "red", "blue"), lty=1)
+> dev.copy(png, file="plot3.png")
+> dev.off()
